@@ -25,6 +25,7 @@ module.exports.getProduct = async (req, res) => {
         status: "fail",
         message: "Could not find product with that id",
       });
+      return;
     }
     res.status(200).json({
       status: "success",
