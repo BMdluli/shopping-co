@@ -1,4 +1,5 @@
 import CategorySection from "../components/CategorySection";
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
 import ProductCard from "../components/ProductCard";
@@ -35,6 +36,8 @@ const Home = () => {
       </div>
 
       <CategorySection />
+
+      <Footer />
     </div>
   );
 };
