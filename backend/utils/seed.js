@@ -22,7 +22,7 @@ const Review = require("../models/review");
 const seedProducts = [
   {
     name: "T-shirt with Tape Details",
-    price: 120,
+    price: 1200,
     description: "A comfortable and versatile t-shirt for everyday wear.",
     category: "T-shirts",
     imageUrl:
@@ -33,10 +33,11 @@ const seedProducts = [
       { size: "large", quantity: 40 },
       { size: "x-Large", quantity: 30 },
     ],
+    sold: 5,
   },
   {
     name: "Skinny Fit Jeans",
-    price: 240,
+    price: 2400,
     description: "Modern and fashionable jeans for any occasion.",
     category: "Jeans",
     imageUrl:
@@ -47,10 +48,11 @@ const seedProducts = [
       { size: "large", quantity: 45 },
       { size: "x-Large", quantity: 20 },
     ],
+    sold: 100,
   },
   {
     name: "Checkered Shirt",
-    price: 180,
+    price: 1800,
     description: "High-performance running shoes for athletes.",
     category: "T-shirts",
     imageUrl:
@@ -61,10 +63,11 @@ const seedProducts = [
       { size: "large", quantity: 35 },
       { size: "x-Large", quantity: 15 },
     ],
+    sold: 123,
   },
   {
     name: "Sleve Striped T-shirt",
-    price: 160,
+    price: 1600,
     description: "A comfortable and fancy striped t-shirt for everyday wear.",
     category: "T-shirts",
     imageUrl:
@@ -75,6 +78,7 @@ const seedProducts = [
       { size: "large", quantity: 35 },
       { size: "x-Large", quantity: 15 },
     ],
+    sold: 90,
   },
 ];
 

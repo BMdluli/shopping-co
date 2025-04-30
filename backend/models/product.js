@@ -22,6 +22,8 @@ const productSchema = new mongoose.Schema({
   //   reviews: [Review], // Embedding the review schema directly
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
+  sold: { type: Number, required: true, default: 0 },
+  price: { type: Number, required: true, default: 0 },
 });
 
 const Product = mongoose.model("Product", productSchema);
