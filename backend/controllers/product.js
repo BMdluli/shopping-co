@@ -39,3 +39,24 @@ module.exports.getProduct = async (req, res) => {
     });
   }
 };
+
+module.exports.getHomeSections = async (req, res) => {
+  try {
+    const [newArrivals, topSelling] = await Promise.all([
+      Product.find().sort({ createdAt: -1 }).limit(4),
+      Product.find().sort({ sold: -1 }).limit(8),
+    ]);
+
+    res.status(200).json({
+      status: "success",
+      data: { newArrivals, topSelling },
+    });
+  } catch (e) {
+    console.error("Error fetching home sections:", e);
+    res.status(500).json({
+      status: "fail",
+      message: "Something went wrong retrieving products for the homepage",
+      error: e.message,
+    });
+  }
+};
