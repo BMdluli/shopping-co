@@ -1,5 +1,3 @@
-import React from "react";
-
 const ProductCard = () => {
   return (
     <div className="w-[200px] md:w-[298px] shrink-0">

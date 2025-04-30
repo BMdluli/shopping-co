@@ -1,3 +1,4 @@
+import CategorySection from "../components/CategorySection";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
 import ProductCard from "../components/ProductCard";
@@ -32,6 +33,8 @@ const Home = () => {
           <ProductCard />
         </div>
       </div>
+
+      <CategorySection />
     </div>
   );
 };
