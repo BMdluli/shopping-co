@@ -7,3 +7,9 @@ export const fetchHomeSections = async () => {
   );
   return response.data.data; // returns { newArrivals, topSelling }
 };
+
+export const fetchProduct = async (id: string) => {
+  const response = await axios.get(`http://localhost:3000/api/products/${id}`);
+
+  return response.data.data[0];
+};

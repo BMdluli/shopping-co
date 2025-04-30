@@ -26,7 +26,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="max-w-[1240px] mx-auto">
+    <div className="mx-4 max-w-[1240px] md:mx-auto">
       <Header />
       <Hero />
 
