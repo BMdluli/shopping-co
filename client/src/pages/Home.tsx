@@ -1,10 +1,30 @@
+import { useEffect, useState } from "react";
 import CategorySection from "../components/CategorySection";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
 import ProductCard from "../components/ProductCard";
+import { fetchHomeSections } from "../services/product";
+import { Product } from "../types/product";
 
 const Home = () => {
+  const [newArrivals, setNewArrivals] = useState<Product[]>([]);
+  const [topSelling, setTopSelling] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const { newArrivals, topSelling } = await fetchHomeSections();
+        setNewArrivals(newArrivals);
+        setTopSelling(topSelling);
+      } catch (err) {
+        console.error("Failed to fetch home sections", err);
+      }
+    };
+
+    getProducts();
+  }, []);
+
   return (
     <div className="max-w-[1240px] mx-auto">
       <Header />
@@ -15,10 +35,9 @@ const Home = () => {
           New Arrivals
         </h2>
         <div className="flex gap-4 md:gap-6 overflow-x-scroll whitespace-nowrap">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          {newArrivals.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
         </div>
       </div>
       <hr className="text-gray-300 my-8" />
@@ -28,10 +47,9 @@ const Home = () => {
           Top Selling
         </h2>
         <div className="flex gap-4 md:gap-6 overflow-x-scroll whitespace-nowrap">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          {topSelling.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
         </div>
       </div>
 

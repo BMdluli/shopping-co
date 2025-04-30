@@ -1,10 +1,16 @@
-const ProductCard = () => {
+import { Product } from "../types/product";
+
+interface ProductCardProps {
+  product: Product;
+}
+
+const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <div className="w-[200px] md:w-[298px] shrink-0">
-      <img src="/placeholder.png" alt="placeholder" />
-      <p className="font-bold mt-2">T-SHIRT WITH TAPE DETAILS</p>
+      <img src={product.imageUrl} alt={product.name} />
+      <p className="font-bold mt-2">{product.name}</p>
       <div className="bg-yellow-400 h-4 my-2"></div>
-      <p className="text-xl font-bold">R2160</p>
+      <p className="text-xl font-bold">R{product.price}</p>
     </div>
   );
 };
