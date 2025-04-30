@@ -13,7 +13,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="flex justify-between items-center h-[70px] bg-green-100">
+      <header className="flex justify-between items-center h-[70px] px-2">
         <div className="flex gap-2">
           <button
             className="md:hidden"
