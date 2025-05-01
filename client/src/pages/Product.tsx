@@ -5,6 +5,7 @@ import Review from "../components/Review";
 import { Product } from "../types/product";
 import { useParams } from "react-router-dom";
 import { fetchProduct } from "../services/product";
+import { addToCart } from "../services/cart";
 
 const ProductPage = () => {
   const [quantity, setQuntity] = useState(1);
@@ -15,6 +16,14 @@ const ProductPage = () => {
     if (quantity + value < 1) return;
 
     setQuntity(quantity + value);
+  };
+
+  const handleAddToCart = async () => {
+    try {
+      await addToCart({ productId: id || "", quantity, size: "small" });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
@@ -46,16 +55,6 @@ const ProductPage = () => {
           <div className="h-5 bg-amber-300"></div>
 
           <div className="flex gap-2">
-            {/* <p className="text-2xl font-semibold md:text-3xl">
-              R{product?.price}
-            </p>
-            <p className="text-2xl font-semibold text-gray-400 line-through md:text-3xl">
-              R3000
-            </p>
-            <div className="bg-red-500/10 rounded-full">
-              <p className="text-sm mt-auto p-2 text-red-500">-40%</p>
-            </div> */}
-
             {product?.isSale ? (
               <>
                 <p className="text-2xl font-semibold md:text-3xl">
@@ -134,7 +133,10 @@ const ProductPage = () => {
                 +
               </button>
             </div>
-            <button className="text-white bg-black flex-1 rounded-full">
+            <button
+              className="text-white bg-black flex-1 rounded-full"
+              onClick={handleAddToCart}
+            >
               Add to Cart
             </button>
           </div>

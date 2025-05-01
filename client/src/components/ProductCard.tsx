@@ -8,8 +8,8 @@ interface ProductCardProps {
 const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <Link
-      to={`product/${product._id}`}
-      className="w-[200px] md:w-[298px] shrink-0"
+      to={`/products/${product._id}`}
+      className="min-w-[162px] md:w-[298px] shrink-0 m-auto"
     >
       <img src={product.imageUrl} alt={product.name} />
       <p className="font-bold mt-2">{product.name}</p>
