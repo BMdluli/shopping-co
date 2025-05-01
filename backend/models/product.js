@@ -20,10 +20,12 @@ const productSchema = new mongoose.Schema({
     },
   ],
   //   reviews: [Review], // Embedding the review schema directly
+  price: { type: Number, required: true, default: 0 },
+  sold: { type: Number, required: true, default: 0 },
+  isSale: { type: Boolean, default: 0 },
+  salePrice: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-  sold: { type: Number, required: true, default: 0 },
-  price: { type: Number, required: true, default: 0 },
 });
 
 const Product = mongoose.model("Product", productSchema);

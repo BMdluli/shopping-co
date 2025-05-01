@@ -34,6 +34,8 @@ const seedProducts = [
       { size: "x-Large", quantity: 30 },
     ],
     sold: 5,
+    isSale: true,
+    salePrice: 700,
   },
   {
     name: "Skinny Fit Jeans",
@@ -49,6 +51,7 @@ const seedProducts = [
       { size: "x-Large", quantity: 20 },
     ],
     sold: 100,
+    isSale: false,
   },
   {
     name: "Checkered Shirt",
@@ -64,6 +67,7 @@ const seedProducts = [
       { size: "x-Large", quantity: 15 },
     ],
     sold: 123,
+    isSale: false,
   },
   {
     name: "Sleve Striped T-shirt",
@@ -79,6 +83,8 @@ const seedProducts = [
       { size: "x-Large", quantity: 15 },
     ],
     sold: 90,
+    isSale: true,
+    salePrice: 1000,
   },
 ];
 
