@@ -46,7 +46,7 @@ const ProductPage = () => {
           <div className="h-5 bg-amber-300"></div>
 
           <div className="flex gap-2">
-            <p className="text-2xl font-semibold md:text-3xl">
+            {/* <p className="text-2xl font-semibold md:text-3xl">
               R{product?.price}
             </p>
             <p className="text-2xl font-semibold text-gray-400 line-through md:text-3xl">
@@ -54,7 +54,30 @@ const ProductPage = () => {
             </p>
             <div className="bg-red-500/10 rounded-full">
               <p className="text-sm mt-auto p-2 text-red-500">-40%</p>
-            </div>
+            </div> */}
+
+            {product?.isSale ? (
+              <>
+                <p className="text-2xl font-semibold md:text-3xl">
+                  R{product?.salePrice}
+                </p>
+                <p className="text-2xl font-semibold text-gray-400 line-through md:text-3xl">
+                  R{product.price}
+                </p>
+                <div className="bg-red-500/10 rounded-full">
+                  <p className="text-sm mt-auto p-2 text-red-500">
+                    -
+                    {((product.price - product.salePrice) / product.price) *
+                      100}
+                    %
+                  </p>
+                </div>
+              </>
+            ) : (
+              <p className="text-2xl font-semibold md:text-3xl">
+                R{product?.price}
+              </p>
+            )}
           </div>
 
           <p className="text-sm text-gray-500 md:text-base">

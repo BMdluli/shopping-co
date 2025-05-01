@@ -12,4 +12,6 @@ export interface Product {
   createdAt: string;
   updatedAt: string;
   sold: number;
+  isSale: boolean;
+  salePrice: number;
 }

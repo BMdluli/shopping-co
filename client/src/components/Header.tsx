@@ -1,5 +1,6 @@
 import { useState } from "react";
 import MobileNav from "./MobileNav";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +24,9 @@ const Header = () => {
           >
             <img src="/icon-menu.png" alt="logo" />
           </button>
-          <img src="/logo.svg" alt="logo" />
+          <Link to="/">
+            <img src="/logo.svg" alt="logo" />
+          </Link>
         </div>
 
         <nav className="hidden md:block">
