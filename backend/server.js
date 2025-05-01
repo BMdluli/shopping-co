@@ -5,6 +5,8 @@ const cors = require("cors");
 
 const productRoute = require("./routes/product");
 const authRoute = require("./routes/auth");
+const cartRoute = require("./routes/cart");
+
 const app = express();
 
 // MIDDLEWARE
@@ -25,6 +27,7 @@ mongoose
 
 app.use("/api", productRoute);
 app.use("/api", authRoute);
+app.use("/api", cartRoute);
 
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`);

@@ -41,7 +41,7 @@ const Header = () => {
           </ul>
         </nav>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 relative">
           <a href="#">
             <img src="/icon-cart.png" alt="cart" />
           </a>
@@ -49,6 +49,10 @@ const Header = () => {
           <a href="#">
             <img src="/icon-account.png" alt="account" />
           </a>
+
+          <div className="absolute bg-green-200 h-[100px] w-[150px] right-0 top-6 rounded-xl p-2 shadow-2xl">
+            <Link to="/login">Login</Link>
+          </div>
         </div>
       </header>
 
