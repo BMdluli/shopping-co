@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const navItems = [
     { id: 0, title: "T-shirts", url: "t-shirts" },
     { id: 1, title: "Shorts", url: "shorts" },
@@ -42,15 +43,19 @@ const Header = () => {
         </nav>
 
         <div className="flex gap-2 relative">
-          <a href="#">
+          <Link to="/cart">
             <img src="/icon-cart.png" alt="cart" />
-          </a>
+          </Link>
 
-          <a href="#">
+          <button onClick={() => setMenuOpen((prevState) => !prevState)}>
             <img src="/icon-account.png" alt="account" />
-          </a>
+          </button>
 
-          <div className="absolute bg-green-200 h-[100px] w-[150px] right-0 top-6 rounded-xl p-2 shadow-2xl">
+          <div
+            className={`${
+              !menuOpen && "hidden"
+            } absolute  h-[100px] w-[150px] right-0 top-6 rounded-xl p-2 shadow-2xl transition-all z-50 bg-white`}
+          >
             <Link to="/login">Login</Link>
           </div>
         </div>

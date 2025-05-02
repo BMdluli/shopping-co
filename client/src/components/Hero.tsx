@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Hero = () => {
   return (
     <div>
@@ -13,9 +15,12 @@ const Hero = () => {
             style.
           </p>
 
-          <button className="h-[52px] rounded-full bg-black text-white w-full md:max-w-[210px]">
+          <Link
+            to="/products"
+            className="flex items-center justify-center h-[52px] rounded-full bg-black text-white w-full md:max-w-[210px]"
+          >
             Shop Now
-          </button>
+          </Link>
         </div>
 
         <div className="flex-1">

@@ -12,5 +12,12 @@ export const addToCart = async (data: {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     }
   );
-  return response.data.data; // returns { newArrivals, topSelling }
+  return response.data.data;
+};
+
+export const fetchCart = async () => {
+  const response = await axios.get("http://localhost:3000/api/cart", {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  });
+  return response.data.data;
 };
