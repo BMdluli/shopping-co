@@ -5,60 +5,151 @@ import { useEffect, useState } from "react";
 import { fetchCart } from "../services/cart";
 import { CartType } from "../types/cart";
 import SummaryLabel from "../components/SummaryLabel";
-import { Link } from "react-router-dom";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const Cart = () => {
-  const [cart, setCart] = useState<CartType[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [cartItems, setCartItems] = useState<CartType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [stripeLoading, setStripeLoading] = useState(false);
+  const [subtotal, setSubtotal] = useState(0);
+  const [deliveryFee, setDeliveryFee] = useState(60); // static, can be dynamic
+  const [total, setTotal] = useState(0);
+
+  const decodeJwt = (token: string) => {
+    try {
+      const decodedToken = jwtDecode(token);
+      console.log(decodedToken);
+      return decodedToken.userId;
+    } catch (error) {
+      console.error("Error decoding JWT:", error);
+      return null;
+    }
+  };
+
+  const handleCheckout = async () => {
+    setStripeLoading(true);
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    const userId = decodeJwt(token);
+
+    const stripe = await stripePromise;
+    try {
+      const { data } = await axios.post(
+        "http://localhost:3000/api/create-checkout-session",
+        {
+          cart: cartItems,
+          userId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if (!data.sessionId) {
+        console.error("No sessionId returned:", data);
+        return;
+      }
+
+      const result = await stripe?.redirectToCheckout({
+        sessionId: data.sessionId,
+      });
+
+      if (result?.error) {
+        console.error("Stripe error:", result.error.message);
+      }
+    } catch (err) {
+      console.error("Checkout error:", err);
+    } finally {
+      setStripeLoading(false);
+    }
+  };
 
   useEffect(() => {
     const getCart = async () => {
       try {
         setIsLoading(true);
         const response = await fetchCart();
-        setCart(response.cart.items);
-        console.log(response.cart.items);
+        const items = response?.cart?.items || [];
+
+        setCartItems(items);
+
+        const calculatedSubtotal = items.reduce(
+          (acc: number, item: CartType) => acc + item.price * item.quantity,
+          0
+        );
+
+        setSubtotal(calculatedSubtotal);
+        setTotal(calculatedSubtotal + deliveryFee);
       } catch (e) {
-        console.log(e);
+        console.error("Error fetching cart:", e);
       } finally {
         setIsLoading(false);
       }
     };
 
     getCart();
+    decodeJwt(localStorage.getItem("token") || "");
   }, []);
+
   return (
     <div className="mx-4 max-w-[1240px] md:mx-auto">
       <Header />
-      <h1 className="text-3xl font-black uppercase">Your Cart</h1>
+      <h1 className="text-3xl font-black uppercase mt-4">Your Cart</h1>
 
       <div className="flex flex-col md:flex-row mt-4 gap-4 md:gap-8 mb-[10%]">
-        <div className="flex flex-col gap-4 p-4 border-1 border-gray-200 rounded-2xl md:flex-2/4">
+        {/* Cart Items */}
+        <div className="flex flex-col gap-4 p-4 border border-gray-200 rounded-2xl md:flex-2/4 min-h-[200px]">
           {isLoading ? (
-            <p>Loading...</p>
-          ) : cart ? (
-            cart.map((item) => <CartItemCard key={item._id} item={item} />)
+            <p className="text-center text-gray-500">Loading your cart...</p>
+          ) : cartItems.length === 0 ? (
+            <p className="text-center text-gray-500">
+              Your cart is currently empty.
+            </p>
           ) : (
-            <p>done</p>
+            cartItems.map((item) => <CartItemCard key={item._id} item={item} />)
           )}
         </div>
 
-        <div className="flex flex-col md:flex-1/4 gap-4 p-4 border-1 border-gray-200 rounded-2xl self-start">
+        {/* Summary Section */}
+        <div className="flex flex-col md:flex-1/4 gap-4 p-4 border border-gray-200 rounded-2xl self-start w-full">
           <h3 className="text-xl font-bold">Order Summary</h3>
 
-          <SummaryLabel text="Subtotal" amount={0} />
-          <SummaryLabel text="Delivery Fee" amount={60} />
+          <SummaryLabel text="Subtotal" amount={subtotal} />
+          <SummaryLabel text="Delivery Fee" amount={deliveryFee} />
 
           <hr />
 
-          <SummaryLabel text="Total" amount={456} textStyles="text-black" />
+          <SummaryLabel
+            text="Total"
+            amount={total}
+            textStyles="text-black font-semibold"
+          />
 
-          <Link
-            to="/checkout"
-            className="flex bg-black text-white gap-2 justify-center h-[54px] rounded-full items-center"
+          <button
+            onClick={handleCheckout}
+            disabled={cartItems.length === 0 || stripeLoading}
+            className={`flex bg-black text-white gap-2 justify-center h-[54px] rounded-full items-center main-button ${
+              cartItems.length === 0 || stripeLoading
+                ? "opacity-50 cursor-not-allowed"
+                : ""
+            }`}
           >
-            Go to Checkout <img src="/icon-arrow-right.svg" alt="arrow right" />
-          </Link>
+            {stripeLoading ? (
+              "Loading..."
+            ) : (
+              <>
+                {" "}
+                Go to Checkout
+                <img src="/icon-arrow-right.svg" alt="arrow right" />
+              </>
+            )}
+          </button>
         </div>
       </div>
       <Footer />

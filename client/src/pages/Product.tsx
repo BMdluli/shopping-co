@@ -111,7 +111,7 @@ const ProductPage = () => {
           <div className="my-4 flex h-11 gap-4 md:h-14">
             <div className="flex bg-gray-100 gap-2 rounded-full px-4 justify-evenly">
               <button
-                className="w-5 md:w-8"
+                className="w-5 md:w-8 "
                 onClick={() => changeQuantity(-1)}
                 disabled={quantity <= 1}
               >
@@ -134,7 +134,7 @@ const ProductPage = () => {
               </button>
             </div>
             <button
-              className="text-white bg-black flex-1 rounded-full"
+              className="text-white bg-black flex-1 rounded-full main-button"
               onClick={handleAddToCart}
             >
               Add to Cart

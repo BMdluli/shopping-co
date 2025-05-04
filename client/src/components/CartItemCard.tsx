@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CartType } from "../types/cart";
+import { Link } from "react-router-dom";
 
 interface CartItemCardProps {
   item: CartType;
@@ -16,19 +17,19 @@ const CartItemCard = ({ item }: CartItemCardProps) => {
 
   return (
     <div className="flex max-h-[130px] gap-4">
-      <div className="max-w-[124px]">
+      <Link to={`/products/${item.productId}`} className="max-w-[124px]">
         <img
           className="object-cover h-full"
           src={item.imageUrl}
           alt={item.name}
         />
-      </div>
+      </Link>
 
       <div className="flex flex-col justify-between flex-1">
         <div className="flex justify-between">
           <h2 className="font-bold">{item.name}</h2>
 
-          <button>
+          <button className="cursor-pointer">
             <img src="/icon-trash.png" alt="delete" />
           </button>
         </div>

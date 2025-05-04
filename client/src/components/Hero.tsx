@@ -17,7 +17,7 @@ const Hero = () => {
 
           <Link
             to="/products"
-            className="flex items-center justify-center h-[52px] rounded-full bg-black text-white w-full md:max-w-[210px]"
+            className="flex items-center justify-center h-[52px] rounded-full bg-black text-white w-full md:max-w-[210px] main-button"
           >
             Shop Now
           </Link>

@@ -1,1 +1,7 @@
 @import "tailwindcss";
+
+.main-button {
+  /* cursor: pointer;
+  background-color: red; */
+  @apply cursor-pointer transition-all hover:bg-black/70;
+}
