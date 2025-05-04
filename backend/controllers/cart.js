@@ -1,7 +1,6 @@
 const Cart = require("../models/cart");
 const Product = require("../models/product");
 
-// Helper function to update cart totals
 const updateCartTotals = async (userId) => {
   const cart = await Cart.findOne({ userId }).populate("items.productId");
   if (!cart) return;
@@ -30,7 +29,7 @@ exports.getCart = async (req, res) => {
 
 exports.addItemToCart = async (req, res) => {
   try {
-    const { productId, quantity, size } = req.body; // Expecting size in the request
+    const { productId, quantity, size } = req.body;
     const product = await Product.findById(productId);
     if (!product) {
       return res
@@ -39,6 +38,7 @@ exports.addItemToCart = async (req, res) => {
     }
 
     const cart = await Cart.findOne({ userId: req.user._id });
+    const effectivePrice = product.isSale ? product.salePrice : product.price;
 
     if (!cart) {
       const newCart = await Cart.create({
@@ -48,7 +48,7 @@ exports.addItemToCart = async (req, res) => {
             productId: product._id,
             quantity: parseInt(quantity),
             size, // Store the selected size
-            price: product.price,
+            price: effectivePrice,
             name: product.name,
             imageUrl: product.imageUrl,
           },
@@ -73,8 +73,8 @@ exports.addItemToCart = async (req, res) => {
       cart.items.push({
         productId: product._id,
         quantity: parseInt(quantity),
-        size, // Store the selected size
-        price: product.price,
+        size,
+        price: effectivePrice,
         name: product.name,
         imageUrl: product.imageUrl,
       });

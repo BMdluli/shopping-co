@@ -6,11 +6,15 @@ const cors = require("cors");
 const productRoute = require("./routes/product");
 const authRoute = require("./routes/auth");
 const cartRoute = require("./routes/cart");
+const checkoutRoute = require("./routes/checkout");
+const webhookRoutes = require("./routes/webhook");
 
 const app = express();
 
-// MIDDLEWARE
+app.use("/api", webhookRoutes);
+
 app.use(express.json());
+
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -28,6 +32,7 @@ mongoose
 app.use("/api", productRoute);
 app.use("/api", authRoute);
 app.use("/api", cartRoute);
+app.use("/api", checkoutRoute);
 
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`);
