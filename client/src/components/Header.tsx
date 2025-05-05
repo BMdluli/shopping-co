@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MobileNav from "./MobileNav";
 import { Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [username, setUserName] = useState<string | null>(null);
   const navItems = [
     { id: 0, title: "T-shirts", url: "t-shirts" },
     { id: 1, title: "Shorts", url: "shorts" },
@@ -12,6 +14,27 @@ const Header = () => {
     { id: 3, title: "Hoodie", url: "hoodie" },
     { id: 4, title: "Jeans", url: "jeans" },
   ];
+
+  const getUsernameFromJwt = async () => {
+    const jwtToken = localStorage.getItem("token");
+    if (!jwtToken) return;
+    const data = await jwtDecode(jwtToken);
+
+    const username = data.username;
+
+    if (!username) return;
+
+    setUserName(username);
+  };
+
+  useEffect(() => {
+    getUsernameFromJwt();
+  }, [username]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUserName(null);
+  };
 
   return (
     <>
@@ -42,7 +65,40 @@ const Header = () => {
           </ul>
         </nav>
 
-        <div className="flex gap-2 relative">
+        <div className="flex items-center gap-2 relative">
+          <div className="hidden md:flex items-center">
+            {/* {
+              username !== null ? () : (
+
+              )
+            } */}
+            {username !== null ? (
+              <>
+                <p>Hi {username}</p>
+
+                <hr className="w-5 rotate-90" />
+
+                <button onClick={handleLogout}>Logout</button>
+
+                <hr className="w-5 rotate-90" />
+
+                <Link to="/orders">Orders</Link>
+              </>
+            ) : (
+              <>
+                <Link className="" to="/login">
+                  Login
+                </Link>
+
+                <hr className="w-5 rotate-90" />
+
+                <Link className="" to="/register">
+                  Register
+                </Link>
+              </>
+            )}
+          </div>
+
           <Link to="/cart">
             <img src="/icon-cart.png" alt="cart" />
           </Link>
@@ -54,9 +110,9 @@ const Header = () => {
           <div
             className={`${
               !menuOpen && "hidden"
-            } absolute  h-[100px] w-[150px] right-0 top-6 rounded-xl p-2 shadow-2xl transition-all z-50 bg-white`}
+            } absolute  h-[100px] w-[150px] right-0 top-6 rounded-xl p-2 shadow-2xl transition-all z-50 bg-white px-4`}
           >
-            <Link to="/login">Login</Link>
+            <Link to="/account">My Account</Link>
           </div>
         </div>
       </header>

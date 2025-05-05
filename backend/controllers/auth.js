@@ -72,7 +72,7 @@ module.exports.loginUser = async (req, res) => {
     const token = jwt.sign(
       {
         userId: user._id,
-        usernmae: user.username,
+        username: user.username,
         role: user.role,
       },
       process.env.JWT_SECRET,
