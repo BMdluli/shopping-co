@@ -7,6 +7,7 @@ import Register from "./pages/Register";
 import Cart from "./pages/Cart";
 import Success from "./pages/Success";
 import Product from "./pages/product";
+import Orders from "./pages/Orders";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/success" element={<Success />} />
+          <Route path="/orders" element={<Orders />} />
         </Routes>
       </Router>
     </>
