@@ -18,8 +18,10 @@ exports.createCheckoutSession = async (req, res) => {
     mode: "payment",
     success_url: "http://localhost:5173/success",
     cancel_url: "http://localhost:5173/cart",
-    metadata: {
-      userId: userId, // TODO
+    payment_intent_data: {
+      metadata: {
+        userId: userId,
+      },
     },
   });
 
