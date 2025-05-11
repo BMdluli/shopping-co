@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { CartType } from "../types/cart";
 import { Link } from "react-router-dom";
+import { removeItemFromCart } from "../services/cart";
 
 interface CartItemCardProps {
   item: CartType;
@@ -13,6 +14,14 @@ const CartItemCard = ({ item }: CartItemCardProps) => {
     if (quantity + value < 1) return;
 
     setQuntity(quantity + value);
+  };
+
+  const deleteItem = async (itemId: string) => {
+    try {
+      await removeItemFromCart(itemId);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -29,7 +38,10 @@ const CartItemCard = ({ item }: CartItemCardProps) => {
         <div className="flex justify-between">
           <h2 className="font-bold">{item.name}</h2>
 
-          <button className="cursor-pointer">
+          <button
+            className="cursor-pointer"
+            onClick={() => deleteItem(item._id)}
+          >
             <img src="/icon-trash.png" alt="delete" />
           </button>
         </div>
