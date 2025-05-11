@@ -1,23 +1,31 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../services/auth";
 
 const Login = () => {
   const [email, setEmail] = useState("1@2.com");
+  const [isLoading, setIsLoading] = useState(false);
   const [password, setPasswod] = useState("Password123$$");
+  const emailRef = useRef(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       const data = await login({ email, password });
       localStorage.setItem("token", data.token);
       navigate("/");
     } catch (e) {
       console.log(e);
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (emailRef.current) emailRef.current.focus();
+  }, []);
 
   return (
     <div className="flex flex-col justify-center items-center h-screen bg-gray-200">
@@ -43,6 +51,7 @@ const Login = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              ref={emailRef}
             />
           </div>
 
@@ -59,7 +68,12 @@ const Login = () => {
             />
           </div>
 
-          <button className="bg-black text-white h-10">Login</button>
+          <button
+            className="bg-black text-white h-10 cursor-pointer disabled:bg-black/70"
+            disabled={isLoading}
+          >
+            {isLoading ? "Loading..." : "Login"}
+          </button>
         </form>
       </div>
     </div>

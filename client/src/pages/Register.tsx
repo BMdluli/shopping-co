@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signup } from "../services/auth";
 
@@ -6,18 +6,26 @@ const Register = () => {
   const [email, setEmail] = useState("1@2.com");
   const [username, setUsername] = useState("sukuna");
   const [password, setPasswod] = useState("Password123$$");
+  const [isLoading, setIsLoading] = useState(false);
+  const usernameRef = useRef(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       await signup({ email, username, password });
       navigate("/login");
     } catch (e) {
       console.log(e);
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (usernameRef.current) usernameRef.current.focus();
+  }, []);
 
   return (
     <div className="flex flex-col justify-center items-center h-screen bg-gray-200">
@@ -43,6 +51,7 @@ const Register = () => {
               required
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              ref={usernameRef}
             />
           </div>
 
@@ -72,7 +81,12 @@ const Register = () => {
             />
           </div>
 
-          <button className="bg-black text-white h-10">Sign up</button>
+          <button
+            className="bg-black text-white h-10 cursor-pointer disabled:bg-black/70"
+            disabled={isLoading}
+          >
+            {isLoading ? "Loading..." : "Sign up"}
+          </button>
         </form>
       </div>
     </div>
