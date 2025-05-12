@@ -3,9 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { signup } from "../services/auth";
 
 const Register = () => {
-  const [email, setEmail] = useState("1@2.com");
-  const [username, setUsername] = useState("sukuna");
-  const [password, setPasswod] = useState("Password123$$");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPasswod] = useState("");
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [dob, setDob] = useState("");
+  const [phone, setPhone] = useState("");
+
   const [isLoading, setIsLoading] = useState(false);
   const usernameRef = useRef(null);
   const navigate = useNavigate();
@@ -14,7 +19,7 @@ const Register = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await signup({ email, username, password });
+      await signup({ email, username, password, name, surname, dob, phone });
       navigate("/login");
     } catch (e) {
       console.log(e);
@@ -32,7 +37,7 @@ const Register = () => {
       <Link to="/">
         <img src="/logo.svg" alt="logo" />
       </Link>
-      <div className="w-[80%] mt-8 bg-white rounded-lg p-4 max-w-[500px]">
+      <div className="w-[80%] mt-8 bg-white rounded-lg p-4 max-w-[500px] overflow-y-scroll">
         <h1 className="text-2xl font-bold text-center">Sign up</h1>
         <p className="text-center">
           Already have an account?{" "}
@@ -65,6 +70,57 @@ const Register = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label htmlFor="name">First Name</label>
+            <input
+              className="bg-white border-1 border-gray-300 h-10 px-2 rounded-md text-gray-800 placeholder:text-gray-700"
+              type="text"
+              name="name"
+              placeholder="John"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label htmlFor="surname">Last Name</label>
+            <input
+              className="bg-white border-1 border-gray-300 h-10 px-2 rounded-md text-gray-800 placeholder:text-gray-700"
+              type="text"
+              name="surname"
+              placeholder="John"
+              required
+              value={surname}
+              onChange={(e) => setSurname(e.target.value)}
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label htmlFor="dob">Date of Birth</label>
+            <input
+              className="bg-white border-1 border-gray-300 h-10 px-2 rounded-md text-gray-800 placeholder:text-gray-700"
+              type="date"
+              name="dob"
+              required
+              value={dob}
+              onChange={(e) => setDob(e.target.value)}
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label htmlFor="phone">Phone Number</label>
+            <input
+              className="bg-white border-1 border-gray-300 h-10 px-2 rounded-md text-gray-800 placeholder:text-gray-700"
+              type="text"
+              name="phone"
+              placeholder="0123456789"
+              required
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
             />
           </div>
 

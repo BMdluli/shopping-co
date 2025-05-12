@@ -10,6 +10,10 @@ export const signup = async (data: {
   email: string;
   username: string;
   password: string;
+  name: string;
+  surname: string;
+  dob: string;
+  phone: string;
 }) => {
   const response = await axios.post("http://localhost:3000/api/register", data);
 
