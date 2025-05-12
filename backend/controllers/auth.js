@@ -5,7 +5,7 @@ const User = require("../models/user");
 module.exports.registerUser = async (req, res) => {
   try {
     console.log(req.body);
-    const { email, password, username } = req.body;
+    const { email, username, password, name, surname, dob, phone } = req.body;
 
     const checkEmailExists = await User.findOne({ email });
 
@@ -24,6 +24,10 @@ module.exports.registerUser = async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      name,
+      surname,
+      dob,
+      phone,
     });
 
     await newUser.save();

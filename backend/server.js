@@ -9,6 +9,8 @@ const cartRoute = require("./routes/cart");
 const checkoutRoute = require("./routes/checkout");
 const webhookRoutes = require("./routes/webhook");
 const orderRoute = require("./routes/order");
+const userRoute = require("./routes/user");
+const addressRoute = require("./routes/address");
 
 const app = express();
 
@@ -35,6 +37,8 @@ app.use("/api", authRoute);
 app.use("/api", cartRoute);
 app.use("/api", checkoutRoute);
 app.use("/api", orderRoute);
+app.use("/api", userRoute);
+app.use("/api", addressRoute);
 
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`);
