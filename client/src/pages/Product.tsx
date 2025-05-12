@@ -10,7 +10,10 @@ import { addToCart } from "../services/cart";
 const ProductPage = () => {
   const [quantity, setQuntity] = useState(1);
   const [product, setProduct] = useState<Product | null>();
+  const [size, setSize] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
+  const sizes = ["small", "medium", "large", "x-Large"];
 
   const changeQuantity = (value: number) => {
     if (quantity + value < 1) return;
@@ -19,11 +22,20 @@ const ProductPage = () => {
   };
 
   const handleAddToCart = async () => {
+    setIsLoading(true);
     try {
-      await addToCart({ productId: id || "", quantity, size: "small" });
+      await addToCart({ productId: id || "", quantity, size: sizes[size] });
     } catch (e) {
       console.log(e);
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  const handleSize = (index: number) => {
+    if (index > 3 || index < 0) return;
+
+    setSize(index);
   };
 
   useEffect(() => {
@@ -31,6 +43,7 @@ const ProductPage = () => {
       try {
         const result = await fetchProduct(id || "");
         setProduct(result);
+        console.log(result);
       } catch (e) {
         console.log(e);
       }
@@ -88,7 +101,7 @@ const ProductPage = () => {
           <div className="my-4">
             <p className="text-sm text-gray-600">Choose Size</p>
             <div className="mt-2 flex gap-4 overflow-x-auto">
-              <button className="bg-gray-100 font-thin text-gray-700 h-[39px] px-4 rounded-full shrink-0 md:h-[46px]">
+              {/* <button className="bg-gray-100 font-thin text-gray-700 h-[39px] px-4 rounded-full shrink-0 md:h-[46px]">
                 Small
               </button>
 
@@ -102,7 +115,19 @@ const ProductPage = () => {
 
               <button className="bg-gray-100 font-thin text-gray-700 h-[39px] px-4 rounded-full shrink-0">
                 X-Large
-              </button>
+              </button> */}
+
+              {product?.sizes.map((item, index) => (
+                <button
+                  onClick={() => setSize(index)}
+                  className={`"bg-gray-100 font-thin text-gray-700 h-[39px] px-4 rounded-full shrink-0 md:h-[46px]" ${
+                    index === size && "bg-black text-white"
+                  }`}
+                  key={item.size}
+                >
+                  {item.size}
+                </button>
+              ))}
             </div>
           </div>
 
@@ -134,10 +159,11 @@ const ProductPage = () => {
               </button>
             </div>
             <button
-              className="text-white bg-black flex-1 rounded-full main-button"
+              className="text-white bg-black flex-1 rounded-full main-button disabled:bg-black/70"
               onClick={handleAddToCart}
+              disabled={isLoading}
             >
-              Add to Cart
+              {isLoading ? "Loading..." : "Add to Cart"}
             </button>
           </div>
         </div>
