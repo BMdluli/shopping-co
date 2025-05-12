@@ -78,7 +78,9 @@ const Header = () => {
 
                 <hr className="w-5 rotate-90" />
 
-                <button onClick={handleLogout}>Logout</button>
+                <button className="cursor-pointer" onClick={handleLogout}>
+                  Logout
+                </button>
 
                 <hr className="w-5 rotate-90" />
 
