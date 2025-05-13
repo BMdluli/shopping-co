@@ -14,8 +14,10 @@ export const fetchProduct = async (id: string) => {
   return response.data.data[0];
 };
 
-export const fetchProducts = async () => {
-  const response = await axios.get(`http://localhost:3000/api/products/`);
-
-  return response.data.data;
+export const fetchProducts = async (params = {}) => {
+  const query = new URLSearchParams(params).toString();
+  const response = await axios.get(
+    `http://localhost:3000/api/products?${query}`
+  );
+  return response.data;
 };
