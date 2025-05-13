@@ -74,7 +74,7 @@ module.exports.getHomeSections = async (req, res) => {
   try {
     const [newArrivals, topSelling] = await Promise.all([
       Product.find().sort({ createdAt: -1 }).limit(4),
-      Product.find().sort({ sold: -1 }).limit(8),
+      Product.find().sort({ sold: -1 }).limit(4),
     ]);
 
     res.status(200).json({
