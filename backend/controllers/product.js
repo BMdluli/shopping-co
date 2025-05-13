@@ -48,12 +48,12 @@ module.exports.getProducts = async (req, res) => {
 
 module.exports.getProduct = async (req, res) => {
   try {
-    const product = await Product.find({ _id: req.params.id });
+    const product = await Product.findOne({ _id: req.params.id });
 
     if (!product) {
       res.status(404).json({
         status: "fail",
-        message: "Could not find product with that id",
+        message: "Could not find a product with that id",
       });
       return;
     }
