@@ -2,6 +2,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const Cart = require("../models/cart");
 const Order = require("../models/order");
 const User = require("../models/user");
+const Product = require("../models/product");
 
 exports.stripeWebhook = async (req, res) => {
   const sig = req.headers["stripe-signature"];
@@ -20,7 +21,6 @@ exports.stripeWebhook = async (req, res) => {
     const session = event.data.object;
 
     try {
-      // Fetch the full PaymentIntent to access metadata
       const paymentIntent = await stripe.paymentIntents.retrieve(
         session.payment_intent
       );
@@ -36,26 +36,40 @@ exports.stripeWebhook = async (req, res) => {
         return res.status(404).send("User not found");
       }
 
-      // Fetch the cart to get items
       const cart = await Cart.findOne({ userId });
-      if (!cart || !cart.items.length) {
-        console.warn(`⚠️  No cart or empty cart found for userId: ${userId}`);
+      if (!cart || cart.items.length === 0) {
         return res.status(404).send("Cart is empty or not found");
       }
 
-      // Calculate total from cart items
-      const totalAmount = session.amount_total / 100; // In case you need to use this for `total`
+      const totalAmount = session.amount_total / 100;
 
-      // Create the order
       const newOrder = await Order.create({
-        userId: user._id, // Correct field name: userId
-        items: cart.items, // Array of items from cart
-        total: totalAmount, // Total amount from session (converted to dollars if needed)
+        userId: user._id,
+        items: cart.items,
+        total: totalAmount,
         paymentIntentId: session.payment_intent,
-        status: "processing", // Default status
+        status: "processing",
       });
 
-      console.log(`✅ Order created for user ${user.email}:`, newOrder._id);
+      // 🔽 Update stock and sold count
+      for (const item of cart.items) {
+        const product = await Product.findById(item.productId);
+        if (!product) continue;
+
+        // Update the size quantity
+        const sizeEntry = product.sizes.find(
+          (s) => s.size.toLowerCase() === item.size.toLowerCase()
+        );
+
+        if (sizeEntry) {
+          sizeEntry.quantity = Math.max(sizeEntry.quantity - item.quantity, 0);
+        }
+
+        // Increase sold count
+        product.sold = (product.sold || 0) + item.quantity;
+
+        await product.save();
+      }
 
       // Clear the cart
       await Cart.findOneAndUpdate(
@@ -63,6 +77,8 @@ exports.stripeWebhook = async (req, res) => {
         { items: [], totalQuantity: 0, totalPrice: 0 },
         { new: true }
       );
+
+      console.log(`✅ Order created and stock updated for user ${user.email}`);
     } catch (err) {
       console.error("❌ Webhook processing error:", err.message);
       return res.status(500).send("Internal Server Error");
