@@ -127,7 +127,7 @@ const seedProducts = [
     description: "Dri-FIT Stride 'Blue' shorts",
     category: "shorts",
     imageUrl:
-      "https://res.cloudinary.com/dtwnppsc6/image/upload/v1747117124/shopping-co/Karl_Lagerfeld_tfkngt.webp",
+      "https://res.cloudinary.com/dtwnppsc6/image/upload/v1747117522/shopping-co/Nike_fl1c6m.webp",
     sizes: [
       { size: "small", quantity: 25 },
       { size: "medium", quantity: 40 },
