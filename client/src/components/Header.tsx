@@ -2,18 +2,12 @@ import { useEffect, useState } from "react";
 import MobileNav from "./MobileNav";
 import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { navItems } from "../models/navigation";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [username, setUserName] = useState<string | null>(null);
-  const navItems = [
-    { id: 0, title: "T-shirts", url: "t-shirts" },
-    { id: 1, title: "Shorts", url: "shorts" },
-    { id: 2, title: "Shirts", url: "shirts" },
-    { id: 3, title: "Hoodie", url: "hoodie" },
-    { id: 4, title: "Jeans", url: "jeans" },
-  ];
 
   const getUsernameFromJwt = async () => {
     const jwtToken = localStorage.getItem("token");

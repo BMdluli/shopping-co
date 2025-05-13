@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+import { navItems } from "../models/navigation";
+
 const Footer = () => {
   return (
     <footer className="bg-gray-50 py-10 px-6 animate-fade-in mt-8">
@@ -9,31 +12,13 @@ const Footer = () => {
         <div>
           <h3 className="text-xl font-semibold mb-2">Quick Links</h3>
           <ul className="space-y-1 text-gray-400">
-            <li>
-              <a href="#" className="hover:text-white transition">
-                T-shirts
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-white transition">
-                Shorts
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-white transition">
-                Shirts
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-white transition">
-                Hoodie
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-white transition">
-                Jeans
-              </a>
-            </li>
+            {navItems.map((item) => (
+              <li key={item.id}>
+                <Link to={item.url} className="hover:text-black transition">
+                  {item.title}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
