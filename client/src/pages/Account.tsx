@@ -3,7 +3,8 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import InputWithLabel from "../components/InputWithLabel";
 import { fetchUserById, modifyAddress } from "../services/user";
-import { getUserIdFromToken } from "../services/jwt";
+import { deleteTokenIfExists, getUserIdFromToken } from "../services/jwt";
+import toast from "react-hot-toast";
 
 const Account = () => {
   const [name, setName] = useState("");
@@ -27,8 +28,8 @@ const Account = () => {
 
     try {
       await modifyAddress({ country, city, streetAddress, postalCode });
-    } catch (e) {
-      console.error(e);
+    } catch (e: any) {
+      toast.error(e?.response?.data?.message || "Error Loading Account");
     } finally {
       setIsLoading(false);
     }
@@ -56,8 +57,9 @@ const Account = () => {
         }
 
         console.log(data);
-      } catch (e) {
-        console.error(e);
+      } catch (e: any) {
+        toast.error(e?.response?.data?.message || "Error Loading Account");
+        deleteTokenIfExists();
       } finally {
         setIsLoading(false);
       }

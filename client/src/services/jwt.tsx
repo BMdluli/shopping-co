@@ -11,3 +11,7 @@ export const getUserIdFromToken = () => {
     return null;
   }
 };
+
+export const deleteTokenIfExists = () => {
+  if (localStorage.getItem("token")) localStorage.removeItem("token");
+};

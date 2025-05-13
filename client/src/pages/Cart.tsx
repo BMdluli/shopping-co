@@ -7,7 +7,7 @@ import { CartType } from "../types/cart";
 import SummaryLabel from "../components/SummaryLabel";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
-import { getUserIdFromToken } from "../services/jwt";
+import { deleteTokenIfExists, getUserIdFromToken } from "../services/jwt";
 import toast from "react-hot-toast";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -76,8 +76,9 @@ const Cart = () => {
 
         setSubtotal(calculatedSubtotal);
         setTotal(calculatedSubtotal + deliveryFee);
-      } catch (e) {
-        console.error("Error fetching cart:", e);
+      } catch (e: any) {
+        toast.error(e?.response?.data?.message || "Error fetching cart");
+        deleteTokenIfExists();
       } finally {
         setIsLoading(false);
       }
