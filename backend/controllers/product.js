@@ -2,16 +2,46 @@ const Product = require("../models/product");
 
 module.exports.getProducts = async (req, res) => {
   try {
-    const products = await Product.find();
+    const queryObj = { ...req.query };
+    const excludeFields = ["sort", "page", "limit"];
+    excludeFields.forEach((el) => delete queryObj[el]);
+
+    // ?category=shirts&isSale=true
+    let filterQuery = Product.find(queryObj);
+
+    // ?sort=price
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(",").join(" ");
+      filterQuery = filterQuery.sort(sortBy);
+    } else {
+      filterQuery = filterQuery.sort("-createdAt");
+    }
+
+    // ?page=2&limit=10
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    filterQuery = filterQuery.skip(skip).limit(limit);
+
+    // Execute query
+    const products = await filterQuery;
+
+    // Get total count
+    const total = await Product.countDocuments(queryObj);
 
     res.status(200).json({
       status: "success",
+      results: products.length,
+      page,
+      totalPages: Math.ceil(total / limit),
       data: products,
     });
   } catch (e) {
     res.status(500).json({
       status: "fail",
-      message: "something went wrong trying to retrieve products",
+      message: "Something went wrong trying to retrieve products",
+      error: e.message,
     });
   }
 };
