@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signup } from "../services/auth";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ const Register = () => {
   const [phone, setPhone] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
-  const usernameRef = useRef(null);
+  const usernameRef = useRef<any>(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: any) => {
@@ -21,8 +22,9 @@ const Register = () => {
     try {
       await signup({ email, username, password, name, surname, dob, phone });
       navigate("/login");
-    } catch (e) {
-      console.log(e);
+      toast.success("Registration successfull");
+    } catch (e: any) {
+      toast.error(e.response.data.message);
     } finally {
       setIsLoading(false);
     }
@@ -55,7 +57,7 @@ const Register = () => {
               placeholder="Sukuna"
               required
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e: any) => setUsername(e.target.value)}
               ref={usernameRef}
             />
           </div>

@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import { fetchOrders } from "../services/order";
 import { Order } from "../types/order";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Orders = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -14,8 +15,8 @@ const Orders = () => {
       try {
         const response = await fetchOrders();
         setOrders(response.orders);
-      } catch (e) {
-        console.log(e);
+      } catch (e: any) {
+        toast.error(e.response.data.message);
       } finally {
         setLoading(false);
       }

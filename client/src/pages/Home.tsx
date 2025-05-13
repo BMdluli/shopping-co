@@ -6,6 +6,7 @@ import Hero from "../components/Hero";
 import ProductCard from "../components/ProductCard";
 import { fetchHomeSections } from "../services/product";
 import { Product } from "../types/product";
+import toast from "react-hot-toast";
 
 const Home = () => {
   const [newArrivals, setNewArrivals] = useState<Product[]>([]);
@@ -17,8 +18,10 @@ const Home = () => {
         const { newArrivals, topSelling } = await fetchHomeSections();
         setNewArrivals(newArrivals);
         setTopSelling(topSelling);
-      } catch (err) {
-        console.error("Failed to fetch home sections", err);
+      } catch (e: any) {
+        toast.error(
+          e?.response?.data?.message || "Failed to fetch home sections"
+        );
       }
     };
 

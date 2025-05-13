@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../services/auth";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [email, setEmail] = useState("1@2.com");
   const [isLoading, setIsLoading] = useState(false);
   const [password, setPasswod] = useState("Password123$$");
-  const emailRef = useRef(null);
+  const emailRef = useRef<any>(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: any) => {
@@ -16,8 +17,9 @@ const Login = () => {
       const data = await login({ email, password });
       localStorage.setItem("token", data.token);
       navigate("/");
-    } catch (e) {
-      console.log(e);
+      toast.success("Login successful");
+    } catch (e: any) {
+      toast.error(e.response.data.message);
     } finally {
       setIsLoading(false);
     }

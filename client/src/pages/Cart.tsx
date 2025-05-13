@@ -7,7 +7,8 @@ import { CartType } from "../types/cart";
 import SummaryLabel from "../components/SummaryLabel";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
+import { getUserIdFromToken } from "../services/jwt";
+import toast from "react-hot-toast";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -16,25 +17,14 @@ const Cart = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [stripeLoading, setStripeLoading] = useState(false);
   const [subtotal, setSubtotal] = useState(0);
-  const [deliveryFee, setDeliveryFee] = useState(60); // static, can be dynamic
+  const [deliveryFee, setDeliveryFee] = useState(60);
   const [total, setTotal] = useState(0);
-
-  const decodeJwt = (token: string) => {
-    try {
-      const decodedToken = jwtDecode(token);
-      console.log(decodedToken);
-      return decodedToken.userId;
-    } catch (error) {
-      console.error("Error decoding JWT:", error);
-      return null;
-    }
-  };
 
   const handleCheckout = async () => {
     setStripeLoading(true);
     const token = localStorage.getItem("token");
     if (!token) return;
-    const userId = decodeJwt(token);
+    const userId = getUserIdFromToken();
 
     const stripe = await stripePromise;
     try {
@@ -63,8 +53,8 @@ const Cart = () => {
       if (result?.error) {
         console.error("Stripe error:", result.error.message);
       }
-    } catch (err) {
-      console.error("Checkout error:", err);
+    } catch (e: any) {
+      toast.error(e?.response?.data?.message || "Checkout error");
     } finally {
       setStripeLoading(false);
     }
@@ -94,7 +84,6 @@ const Cart = () => {
     };
 
     getCart();
-    decodeJwt(localStorage.getItem("token") || "");
   }, []);
 
   return (

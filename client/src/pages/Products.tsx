@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { Product } from "../types/product";
 import { fetchProducts } from "../services/product";
 import ProductCard from "../components/ProductCard";
+import toast from "react-hot-toast";
 
 const Products = () => {
   const location = useLocation();
@@ -33,20 +34,20 @@ const Products = () => {
         const response = await fetchProducts(queryParams);
         setProducts(response.data);
         setTotalPages(response.totalPages);
-      } catch (e) {
-        console.log(e);
+      } catch (e: any) {
+        toast.error(e?.response?.data?.message || "Failed to load products");
       } finally {
         setIsLoading(false);
       }
     };
 
     getProducts();
-  }, [sortOption, page, category]); // 👈 react to category changes in the URL
+  }, [sortOption, page, category]);
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     setSortOption(value);
-    setPage(1); // Reset to first page on sort change
+    setPage(1);
   };
 
   return (
@@ -84,7 +85,7 @@ const Products = () => {
       {/* Pagination Controls */}
       <div className="flex justify-center mt-8 space-x-2">
         <button
-          className="px-4 py-2 bg-gray-200 rounded"
+          className="px-4 py-2 bg-gray-200 rounded cursor-pointer disabled:bg-gray-100"
           onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
           disabled={page === 1}
         >
@@ -94,7 +95,7 @@ const Products = () => {
           Page {page} of {totalPages}
         </span>
         <button
-          className="px-4 py-2 bg-gray-200 rounded"
+          className="px-4 py-2 bg-gray-200 rounded cursor-pointer disabled:bg-gray-100"
           onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
           disabled={page === totalPages}
         >

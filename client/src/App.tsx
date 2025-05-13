@@ -6,13 +6,15 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Cart from "./pages/Cart";
 import Success from "./pages/Success";
-import Product from "./pages/product";
 import Orders from "./pages/Orders";
 import Account from "./pages/Account";
+import { Toaster } from "react-hot-toast";
+import Product from "./pages/Product";
 
 function App() {
   return (
     <>
+      <Toaster position="top-right" reverseOrder={false} />
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
