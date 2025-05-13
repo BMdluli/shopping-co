@@ -24,7 +24,7 @@ const seedProducts = [
     name: "T-shirt with Tape Details",
     price: 1200,
     description: "A comfortable and versatile t-shirt for everyday wear.",
-    category: "T-shirts",
+    category: "t-shirts",
     imageUrl:
       "https://res.cloudinary.com/dtwnppsc6/image/upload/v1745397891/shopping-co/i3s3aqn08kbfzah6suo1.png",
     sizes: [
@@ -57,7 +57,7 @@ const seedProducts = [
     name: "Checkered Shirt",
     price: 1800,
     description: "High-performance running shoes for athletes.",
-    category: "T-shirts",
+    category: "shirts",
     imageUrl:
       "https://res.cloudinary.com/dtwnppsc6/image/upload/v1745397892/shopping-co/sconjmddgcojwuufs0oq.png",
     sizes: [
@@ -73,7 +73,7 @@ const seedProducts = [
     name: "Sleve Striped T-shirt",
     price: 1600,
     description: "A comfortable and fancy striped t-shirt for everyday wear.",
-    category: "T-shirts",
+    category: "t-shirts",
     imageUrl:
       "https://res.cloudinary.com/dtwnppsc6/image/upload/v1745397891/shopping-co/zlvbj2qdcogntuyzs6di.png",
     sizes: [
@@ -85,6 +85,178 @@ const seedProducts = [
     sold: 90,
     isSale: true,
     salePrice: 1000,
+  },
+
+  {
+    name: "AAPE BY *A BATHING APE®",
+    price: 1854,
+    description: "graphic-print T-shirt",
+    category: "t-shirts",
+    imageUrl:
+      "https://res.cloudinary.com/dtwnppsc6/image/upload/v1747117124/shopping-co/AAPE_BY_A_BATHING_APE_tqglqi.webp",
+    sizes: [
+      { size: "small", quantity: 25 },
+      { size: "medium", quantity: 40 },
+      { size: "large", quantity: 35 },
+      { size: "x-Large", quantity: 15 },
+    ],
+    sold: 500,
+    isSale: false,
+  },
+
+  {
+    name: "Karl Lagerfeld",
+    price: 2600,
+    description: "Ikon-patch T-shirt.",
+    category: "t-shirts",
+    imageUrl:
+      "https://res.cloudinary.com/dtwnppsc6/image/upload/v1747117124/shopping-co/Karl_Lagerfeld_tfkngt.webp",
+    sizes: [
+      { size: "small", quantity: 25 },
+      { size: "medium", quantity: 40 },
+      { size: "large", quantity: 35 },
+      { size: "x-Large", quantity: 15 },
+    ],
+    sold: 90,
+    isSale: false,
+  },
+
+  {
+    name: "Nike",
+    price: 864,
+    description: "Dri-FIT Stride 'Blue' shorts",
+    category: "shorts",
+    imageUrl:
+      "https://res.cloudinary.com/dtwnppsc6/image/upload/v1747117124/shopping-co/Karl_Lagerfeld_tfkngt.webp",
+    sizes: [
+      { size: "small", quantity: 25 },
+      { size: "medium", quantity: 40 },
+      { size: "large", quantity: 35 },
+      { size: "x-Large", quantity: 15 },
+    ],
+    sold: 90,
+    isSale: false,
+  },
+
+  {
+    name: "CHOCOOLATE",
+    price: 900,
+    description: "logo print cotton shorts",
+    category: "shorts",
+    imageUrl:
+      "https://res.cloudinary.com/dtwnppsc6/image/upload/v1747117521/shopping-co/CHOCOOLATE_qduqqv.webp",
+    sizes: [
+      { size: "small", quantity: 25 },
+      { size: "medium", quantity: 40 },
+      { size: "large", quantity: 35 },
+      { size: "x-Large", quantity: 15 },
+    ],
+    sold: 90,
+    isSale: false,
+  },
+
+  {
+    name: "Acne Studios",
+    price: 16000,
+    description: "Wide leg jeans.",
+    category: "jeans",
+    imageUrl:
+      "https://res.cloudinary.com/dtwnppsc6/image/upload/v1747116238/shopping-co/Acne_Studios_nwhtfx.webp",
+    sizes: [
+      { size: "small", quantity: 25 },
+      { size: "medium", quantity: 40 },
+      { size: "large", quantity: 35 },
+      { size: "x-Large", quantity: 15 },
+    ],
+    sold: 7,
+    isSale: true,
+    salePrice: 10000,
+  },
+
+  {
+    name: "Who Decides War",
+    price: 3906,
+    description: "x A Boogie Wit Da Hoodie Better Off Alone 'BLACK' hoodie.",
+    category: "hoodie",
+    imageUrl:
+      "https://res.cloudinary.com/dtwnppsc6/image/upload/v1747118294/shopping-co/Who_Decides_War_cedssg.webp",
+    sizes: [
+      { size: "small", quantity: 25 },
+      { size: "medium", quantity: 40 },
+      { size: "large", quantity: 35 },
+      { size: "x-Large", quantity: 15 },
+    ],
+    sold: 90,
+    isSale: false,
+  },
+
+  {
+    name: "Eric Bompard",
+    price: 11900,
+    description: "knitted hoodie",
+    category: "hoodie",
+    imageUrl:
+      "https://res.cloudinary.com/dtwnppsc6/image/upload/v1747118293/shopping-co/Eric_Bompard_naw399.webp",
+    sizes: [
+      { size: "small", quantity: 25 },
+      { size: "medium", quantity: 40 },
+      { size: "large", quantity: 35 },
+      { size: "x-Large", quantity: 15 },
+    ],
+    sold: 35,
+    isSale: false,
+  },
+
+  {
+    name: "Philipp Plein",
+    price: 10800,
+    description: "Skully Gang low rise skinny jeans.",
+    category: "jeans",
+    imageUrl:
+      "https://res.cloudinary.com/dtwnppsc6/image/upload/v1747116238/shopping-co/Philipp_Plein_o4bzpr.webp",
+    sizes: [
+      { size: "small", quantity: 25 },
+      { size: "medium", quantity: 40 },
+      { size: "large", quantity: 35 },
+      { size: "x-Large", quantity: 15 },
+    ],
+    sold: 90,
+    isSale: false,
+  },
+
+  {
+    name: "Thom Browne",
+    price: 32000,
+    description: "Snake embroidery straight leg jeans.",
+    category: "jeans",
+    imageUrl:
+      "https://res.cloudinary.com/dtwnppsc6/image/upload/v1747116237/shopping-co/Thom_Browne_ecnz4p.webp",
+    sizes: [
+      { size: "small", quantity: 25 },
+      { size: "medium", quantity: 40 },
+      { size: "large", quantity: 35 },
+      { size: "x-Large", quantity: 15 },
+    ],
+    sold: 90,
+    isSale: true,
+    salePrice: 26000,
+  },
+
+  {
+    name: "Daily Paper ",
+    price: 3600,
+    description: "Logo printed jeans.",
+    category: "jeans",
+    imageUrl:
+      "https://res.cloudinary.com/dtwnppsc6/image/upload/v1747116237/shopping-co/Daily_Paper_kehmgp.webp",
+    sizes: [
+      { size: "small", quantity: 25 },
+      { size: "medium", quantity: 40 },
+      { size: "large", quantity: 35 },
+      { size: "x-Large", quantity: 15 },
+    ],
+    sold: 90,
+    isSale: false,
   },
 ];
 
