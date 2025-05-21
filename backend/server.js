@@ -28,9 +28,10 @@ app.use(
 
 const PORT = process.env.PORT || 3000;
 
-mongoose
-  .connect(process.env.CONNECTION)
-  .then(() => console.log("DB connection successfully"));
+if (process.env.NODE_ENV !== "test")
+  mongoose
+    .connect(process.env.CONNECTION)
+    .then(() => console.log("DB connection successfully"));
 
 app.use("/api", productRoute);
 app.use("/api", authRoute);
@@ -43,3 +44,5 @@ app.use("/api", addressRoute);
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`);
 });
+
+module.exports = app;
