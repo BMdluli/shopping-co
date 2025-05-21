@@ -48,7 +48,11 @@ const Orders = () => {
                   className="w-[100px] h-[100px] p-4 border-1"
                   key={item.productId}
                 >
-                  <img src={item.imageUrl} alt={item.name} />
+                  <img
+                    className="max-h-[66px] w-full object-contain"
+                    src={item.imageUrl}
+                    alt={item.name}
+                  />
                 </Link>
               ))}
             </ul>

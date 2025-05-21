@@ -7,19 +7,22 @@ import { useParams } from "react-router-dom";
 import { fetchProduct } from "../services/product";
 import { addToCart } from "../services/cart";
 import toast from "react-hot-toast";
+import { useCart } from "../context/CartContext";
 
 const ProductPage = () => {
-  const [quantity, setQuntity] = useState(1);
+  const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState<Product | null>(null);
   const [size, setSize] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingProduct, setIsLoadingProduct] = useState(true);
   const { id } = useParams();
+  const { refreshCart } = useCart();
+
   const sizes = ["small", "medium", "large", "x-Large"];
 
   const changeQuantity = (value: number) => {
     if (quantity + value < 1) return;
-    setQuntity(quantity + value);
+    setQuantity(quantity + value);
   };
 
   const handleAddToCart = async () => {
@@ -28,6 +31,7 @@ const ProductPage = () => {
     setIsLoading(true);
     try {
       await addToCart({ productId: id || "", quantity, size: sizes[size] });
+      await refreshCart();
       toast.success("Added to cart");
     } catch (e: any) {
       toast.error(e?.response?.data?.message || "Failed to add to cart");
@@ -64,8 +68,7 @@ const ProductPage = () => {
         <div className="text-center py-20 text-red-500">Product not found.</div>
       ) : (
         <>
-          <div className="flex flex-col gap-4 md:flex-row md:gap-8 max-h-[543px]">
-            {/* Product content */}
+          <div className="flex flex-col gap-4 md:flex-row md:gap-8 md:max-h-[543px]">
             <div className="flex-1">
               <img
                 className="h-full w-full object-contain"
@@ -137,7 +140,7 @@ const ProductPage = () => {
               <div className="my-4 flex h-11 gap-4 md:h-14">
                 <div className="flex bg-gray-100 gap-2 rounded-full px-4 justify-evenly">
                   <button
-                    className="w-5 md:w-8 "
+                    className="w-5 md:w-8"
                     onClick={() => changeQuantity(-1)}
                     disabled={quantity <= 1}
                   >
@@ -151,7 +154,7 @@ const ProductPage = () => {
                     onChange={(e) => {
                       const val = parseInt(e.target.value, 10);
                       if (!isNaN(val) && val >= 1) {
-                        setQuntity(val);
+                        setQuantity(val);
                       }
                     }}
                   />

@@ -1,29 +1,28 @@
 import { useEffect, useState } from "react";
-import MobileNav from "./MobileNav";
 import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import MobileNav from "./MobileNav";
 import { navItems } from "../models/navigation";
+import { useCart } from "../context/CartContext";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [username, setUserName] = useState<string | null>(null);
-
-  const getUsernameFromJwt = async () => {
-    const jwtToken = localStorage.getItem("token");
-    if (!jwtToken) return;
-    const data = await jwtDecode(jwtToken);
-
-    const username = data.username;
-
-    if (!username) return;
-
-    setUserName(username);
-  };
+  const { quantity: cartQuantity } = useCart();
 
   useEffect(() => {
-    getUsernameFromJwt();
-  }, [username]);
+    const jwtToken = localStorage.getItem("token");
+    if (!jwtToken) return;
+    try {
+      const data: any = jwtDecode(jwtToken);
+      if (data?.username) {
+        setUserName(data.username);
+      }
+    } catch (err) {
+      console.error("Error decoding token:", err);
+    }
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -34,13 +33,8 @@ const Header = () => {
     <>
       <header className="flex justify-between items-center h-[70px] px-2">
         <div className="flex gap-2">
-          <button
-            className="md:hidden"
-            onClick={() => {
-              setIsOpen(true);
-            }}
-          >
-            <img src="/icon-menu.png" alt="logo" />
+          <button className="md:hidden" onClick={() => setIsOpen(true)}>
+            <img src="/icon-menu.png" alt="menu" />
           </button>
           <Link to="/">
             <img src="/logo.svg" alt="logo" />
@@ -59,54 +53,44 @@ const Header = () => {
           </ul>
         </nav>
 
-        <div className="flex items-center gap-2 relative">
+        <div className="flex items-center gap-2 md:gap-4 relative">
           <div className="hidden md:flex items-center">
-            {/* {
-              username !== null ? () : (
-
-              )
-            } */}
-            {username !== null ? (
+            {username ? (
               <>
                 <p>Hi {username}</p>
-
                 <hr className="w-5 rotate-90" />
-
                 <button className="cursor-pointer" onClick={handleLogout}>
                   Logout
                 </button>
-
                 <hr className="w-5 rotate-90" />
-
                 <Link to="/orders">Orders</Link>
               </>
             ) : (
               <>
-                <Link className="" to="/login">
-                  Login
-                </Link>
-
+                <Link to="/login">Login</Link>
                 <hr className="w-5 rotate-90" />
-
-                <Link className="" to="/register">
-                  Register
-                </Link>
+                <Link to="/register">Register</Link>
               </>
             )}
           </div>
 
-          <Link to="/cart">
+          <Link to="/cart" className="relative">
             <img src="/icon-cart.png" alt="cart" />
+            {cartQuantity > 0 && (
+              <span className="absolute -top-2.5 -right-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+                {cartQuantity}
+              </span>
+            )}
           </Link>
 
-          <button onClick={() => setMenuOpen((prevState) => !prevState)}>
+          <button onClick={() => setMenuOpen((prev) => !prev)}>
             <img src="/icon-account.png" alt="account" />
           </button>
 
           <div
             className={`${
               !menuOpen && "hidden"
-            } absolute  h-[100px] w-[150px] right-0 top-6 rounded-xl p-2 shadow-2xl transition-all z-50 bg-white px-4`}
+            } absolute h-[100px] w-[150px] right-0 top-6 rounded-xl p-2 shadow-2xl z-50 bg-white px-4`}
           >
             <Link to="/account">My Account</Link>
           </div>

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../services/auth";
 import toast from "react-hot-toast";
+import { useCart } from "../context/CartContext";
 
 const Login = () => {
   const [email, setEmail] = useState("1@2.com");
@@ -9,6 +10,7 @@ const Login = () => {
   const [password, setPasswod] = useState("Password123$$");
   const emailRef = useRef<any>(null);
   const navigate = useNavigate();
+  const { refreshCart } = useCart();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -18,6 +20,7 @@ const Login = () => {
       localStorage.setItem("token", data.token);
       navigate("/");
       toast.success("Login successful");
+      await refreshCart();
     } catch (e: any) {
       toast.error(e.response.data.message);
     } finally {

@@ -2,19 +2,12 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { jwtDecode } from "jwt-decode";
 import { Link } from "react-router-dom";
+import { navItems } from "../models/navigation";
 
 interface MobileNavProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
-const navItems = [
-  { id: 0, title: "T-shirts", url: "t-shirts" },
-  { id: 1, title: "Shorts", url: "shorts" },
-  { id: 2, title: "Shirts", url: "shirts" },
-  { id: 3, title: "Hoodie", url: "hoodie" },
-  { id: 4, title: "Jeans", url: "jeans" },
-];
 
 const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
   const [username, setUserName] = useState<string | null>(null);

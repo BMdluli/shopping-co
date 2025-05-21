@@ -29,7 +29,7 @@ const CategorySection = () => {
         <CategoryCard
           title={"Hoodies"}
           imageUrl={"/gym.jpg"}
-          url={`${baseUrl}jeans`}
+          url={`${baseUrl}hoodie`}
         />
       </div>
     </div>
