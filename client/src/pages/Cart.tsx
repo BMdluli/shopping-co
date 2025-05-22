@@ -29,7 +29,7 @@ const Cart = () => {
     const stripe = await stripePromise;
     try {
       const { data } = await axios.post(
-        "http://localhost:3000/api/create-checkout-session",
+        `${import.meta.env.VITE_BACKEND_URL}api/create-checkout-session`,
         {
           cart: cartItems,
           userId,

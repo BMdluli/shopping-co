@@ -2,11 +2,14 @@ import axios from "axios";
 import { getUserIdFromToken } from "./jwt";
 
 export const fetchUserById = async (userId: string) => {
-  const response = await axios.get(`http://localhost:3000/api/user/${userId}`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  });
+  const response = await axios.get(
+    `${import.meta.env.VITE_BACKEND_URL}api/user/${userId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
 
   return response.data;
 };

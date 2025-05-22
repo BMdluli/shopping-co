@@ -1,7 +1,10 @@
 import axios from "axios";
 
 export const login = async (data: { email: string; password: string }) => {
-  const response = await axios.post("http://localhost:3000/api/login", data);
+  const response = await axios.post(
+    `${import.meta.env.VITE_BACKEND_URL}api/login`,
+    data
+  );
 
   return response.data.data;
 };
@@ -15,7 +18,10 @@ export const signup = async (data: {
   dob: string;
   phone: string;
 }) => {
-  const response = await axios.post("http://localhost:3000/api/register", data);
+  const response = await axios.post(
+    `${import.meta.env.VITE_BACKEND_URL}api/register`,
+    data
+  );
 
   return response.data.data;
 };

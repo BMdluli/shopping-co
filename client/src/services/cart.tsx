@@ -6,10 +6,10 @@ export const addToCart = async (data: {
   size: string;
 }) => {
   const response = await axios.post(
-    "http://localhost:3000/api/cart/items",
+    `${import.meta.env.VITE_BACKEND_URL}api/cart/items`,
     data,
     {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      headers: { Authorization: `Bearer ${localStorage.getItem(`token`)}` },
     }
   );
   return response.data.data;
@@ -17,17 +17,20 @@ export const addToCart = async (data: {
 
 export const removeItemFromCart = async (itemId: string) => {
   const response = await axios.delete(
-    `http://localhost:3000/api/cart/items/${itemId}`,
+    `${import.meta.env.VITE_BACKEND_URL}api/cart/items/${itemId}`,
     {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      headers: { Authorization: `Bearer ${localStorage.getItem(`token`)}` },
     }
   );
   return response.data.data;
 };
 
 export const fetchCart = async () => {
-  const response = await axios.get("http://localhost:3000/api/cart", {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-  });
+  const response = await axios.get(
+    `${import.meta.env.VITE_BACKEND_URL}api/cart`,
+    {
+      headers: { Authorization: `Bearer ${localStorage.getItem(`token`)}` },
+    }
+  );
   return response.data.data;
 };

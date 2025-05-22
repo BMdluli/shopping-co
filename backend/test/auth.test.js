@@ -42,4 +42,23 @@ describe("To Test auth endpoints", () => {
       message: "User created successfully",
     });
   });
+
+  it("should login a user", async () => {
+    const endpoint = "/api/login";
+
+    const userPayload = {
+      email: "jirin@universe9.com",
+      password: "Password123$$",
+    };
+
+    const response = await request(server).post(endpoint).send(userPayload);
+
+    // expect(response.body).toBeDefined({ data });
+    // console.log(response.body);
+
+    expect(response.body).toHaveProperty("status", "success");
+    expect(response.body).toHaveProperty("data.token");
+    expect(typeof response.body.data.token).toBe("string");
+    expect(response.body.data.token.length).toBeGreaterThan(0);
+  });
 });
